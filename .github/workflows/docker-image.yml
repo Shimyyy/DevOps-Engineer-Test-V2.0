@@ -22,9 +22,8 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag yohanshimalka9999/cicd:$(date +%s)
-
-    - name: Push the Docker image
-      run: docker push yohanshimalka9999/cicd:$(date +%s)
-
+    - name: Build and push the Docker image
+      run: |
+        IMAGE_TAG=$(date +%s)
+        docker build . --file Dockerfile --tag yohanshimalka9999/cicd:my-image-name-$IMAGE_TAG
+        docker push yohanshimalka9999/cicd:my-image-name-$IMAGE_TAG
