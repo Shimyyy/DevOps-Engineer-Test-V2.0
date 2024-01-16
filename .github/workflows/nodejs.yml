@@ -1,0 +1,55 @@
+name: Node.js CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'  # Specify the Node.js version
+
+    - name: Install dependencies
+      run: npm install  # Install NPM dependencies
+
+    - name: Run linting
+      run: npm run lint  # Run linting (if you have a lint script)
+
+    - name: Run tests
+      run: npm test  # Run your test scripts
+
+    - name: Build
+      run: npm run build  # Build your application (if applicable)
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build  # This job runs only if the build job completes successfully
+    if: github.ref == 'refs/heads/main'  # Only deploy when the main branch is updated
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+
+    # Add steps for deployment here
+    # For example, deployment to a server, publishing to npm, etc.
+    - name: Deploy
+      run: echo "Add deployment commands here"
+
+    # If you are deploying to a service like AWS, Azure, or others, you would typically use their specific action here
+    # Example: uses: aws-actions/amazon-ecs-deploy-task-definition@v1
