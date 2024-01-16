@@ -26,5 +26,5 @@ jobs:
       run: docker build . --file Dockerfile --tag yohanshimalka9999/cicd:$(date +%s)
 
     - name: Push the Docker image
-      run: docker yohanshimalka9999/cicd:$(date +%s)
+      run: docker push yohanshimalka9999/cicd:$(date +%s)
 
